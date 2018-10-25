@@ -1,5 +1,5 @@
 var cols, rows, blue, red, m;
-var w = 10;
+var w = 25;
 var colored = [];
 
 
@@ -9,7 +9,8 @@ function setup() {
     cols = floor(width/w);
     rows = floor(height/w);
     grid = newGrid(cols,rows);   
-    m = (cols-1) + (rows-1) * w;
+    m = cols*rows;
+    console.log(m)
     frameRate(30); 
 
     
@@ -49,7 +50,9 @@ function setup() {
     // end of making the colored field. 
 
     // count the neighbors with the same color
-
+    for (var i = 0; i < grid.length; i ++) {
+        grid[i].similarNeighbors = grid[i].countNeighbors();
+    }
 }
 
 

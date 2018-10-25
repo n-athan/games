@@ -29,9 +29,17 @@ function Cell(x,y) {
         var y = this.y*w;
         if (this.colored && this.revealed) {
             fill(this.hue,50,50);
-        } else {fill(21,9,92);}
-        stroke(249,30,10);
-        rect(x,y,w,w);    
+            rect(x,y,w,w); 
+            if (this.similarNeighbors != 8) {
+                textAlign(CENTER);
+                fill(249,30,10);
+                text(this.similarNeighbors, x + w*0.5 ,y + w*0.66);
+            }
+        } else {
+            fill(21,9,92);
+            stroke(249,30,10);
+            rect(x,y,w,w);
+        }
     };
 
     this.getFreeNeighbor = function() {
@@ -69,5 +77,24 @@ function Cell(x,y) {
             next = stack.pop();
             return next;
         } else return this;
-    }
+    };
+
+    this.countNeighbors = function() {
+        let c = 0;
+        for (var i = -1; i < 2; i ++) {
+            for (var j = -1; j < 2; j ++) {
+                let x = this.x + i;
+                let y = this.y + j;
+                if (index(x,y) != this.index) {
+                    let cell = grid[index(x,y)];
+                    if (cell && cell.hue == this.hue) {
+                       c++;
+                    };
+                };
+            };
+        };
+        return c;
+    };
+
+
 }
