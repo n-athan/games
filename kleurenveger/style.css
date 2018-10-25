@@ -31,7 +31,7 @@ canvas {
     align-items: center;
 }
 
-button, a, h2 {
+button, a, h2, .settings, input {
     color:  hsla(21, 9%, 92%,0.9);
     font-family: 'Space Mono', monospace;
     font-size: 1em;
@@ -45,6 +45,26 @@ li {
     font-size: 1em;
     color: hsla(21, 9%, 92%,0.9);
     max-width: 100%;
+}
+
+.settings {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+input {
+    width: 50px;
+}
+
+input[type=number]{
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 @media only screen and (max-width: 900px) {

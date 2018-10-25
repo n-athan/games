@@ -1,4 +1,4 @@
-var cols, rows, blue, red, m, paint, guessesLeft;
+var cols, rows, blue, red, m, paint, guessesLeft, gameOver, go_i;
 var w = 40;
 var colored = [];
 
@@ -11,7 +11,9 @@ function setup() {
     grid = newGrid(cols, rows);
     m = cols * rows;
     guessesLeft = 3;
-    frameRate(30);
+    gameOver = false;
+    paint = undefined;
+    go_i = 0;
 
 
     // color the field based on the recursive backtracking Maze Generation algorithm.
@@ -55,10 +57,16 @@ function setup() {
     }
 }
 
+// actualy draws the frames
 function draw() {
     background(21, 9, 92);
     for (i in grid) {
         grid[i].show();
+    }
+
+    if (gameOver && go_i < grid.length) {
+        grid[go_i].revealed = true;
+        go_i ++;
     }
 }
 
@@ -66,14 +74,16 @@ function draw() {
 function mousePressed() {
     for (i in grid) {
         if (grid[i].contain(mouseX, mouseY)) {
+            rev = grid[i].revealed;
             grid[i].revealed = true;
             if (grid[i].similarNeighbors == 8) {
                 grid[i].floodReveal();
             }
-            if (!paint) {
+            if (!paint) { //Free guess
                 paintColor(grid[i].hue);
-            } else if (paint != grid[i].hue) {
-                console.log("game over");
+            } else if (paint != grid[i].hue && rev == false) {
+                //GAME OVER
+                gameOver = true;
             }
         }
     }
@@ -84,18 +94,32 @@ function paintColor(hue) {
     let buttons = document.getElementsByName('paint');
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].style.backgroundColor = `hsla(249, 9%, 92%,0.3)`;
+        buttons[i].style.fontWeight = 400;
     }
     let b = document.getElementById(hue);
     b.style.backgroundColor = `hsla(${hue}, 9%, 50%,0.9)`;
+    b.style.fontWeight = 800;
 }
 
 function freeColor() {
     if (guessesLeft > 0) {
-    paint = undefined;
-    guessesLeft --; 
-    document.getElementById("free").innerHTML = `Free ${guessesLeft}/3`;
-    document.getElementById("free").style.backgroundColor = `hsla(60, 9%, 92%,0.3)`;
+        paint = undefined;
+        guessesLeft --; 
+        document.getElementById("free").innerHTML = `Free ${guessesLeft}/3`;
+        let buttons = document.getElementsByName('paint');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].style.backgroundColor = `hsla(249, 9%, 92%,0.3)`;
+            buttons[i].style.fontWeight = 400;
+        }
+        document.getElementById("free").style.backgroundColor = `hsla(60, 9%, 92%,0.9)`;
+        document.getElementById("free").style.fontWeight = 800;
     } else {
-        console.log("no more guesses")
+        document.getElementById("free").innerHTML = '-';
     }
+}
+
+function refresh() {
+    w = 400/document.getElementById("squares").value;
+    setup();
+
 }
