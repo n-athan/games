@@ -1,5 +1,5 @@
 var cols, rows, blue, red, m;
-var w = 25;
+var w = 20;
 var colored = [];
 
 
@@ -10,7 +10,6 @@ function setup() {
     rows = floor(height/w);
     grid = newGrid(cols,rows);   
     m = cols*rows;
-    console.log(m)
     frameRate(30); 
 
     
@@ -53,6 +52,18 @@ function setup() {
     for (var i = 0; i < grid.length; i ++) {
         grid[i].similarNeighbors = grid[i].countNeighbors();
     }
+}
+
+function mousePressed() {
+    for (i in grid) {
+        if (grid[i].contain(mouseX,mouseY)) {
+            grid[i].revealed = true;
+            if (grid[i].similarNeighbors == 8) {
+                grid[i].floodReveal();
+            }
+        }
+    }
+    
 }
 
 

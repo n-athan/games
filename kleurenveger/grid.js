@@ -22,7 +22,7 @@ function Cell(x,y) {
     this.y = y;
     this.hue, this.similarNeighbors;
     this.colored = false;
-    this.revealed = true;
+    this.revealed = false;
     
     this.show = function() {
         var x = this.x*w;
@@ -95,6 +95,31 @@ function Cell(x,y) {
         };
         return c;
     };
+
+    this.contain = function(x,y) {
+        return (x >= this.x*w && 
+            x < this.x*w + w && 
+            y >= this.y*w  && 
+            y < this.y*w + w) 
+    }
+
+    this.floodReveal = function() {
+        for (var i = -1; i < 2; i ++) {
+            for (var j = -1; j < 2; j ++) {
+                let x = this.x + i;
+                let y = this.y + j;
+                if (index(x,y) != this.index) {
+                    let cell = grid[index(x,y)];
+                    if (cell && cell.revealed == false) {
+                       cell.revealed = true;
+                       if (cell.similarNeighbors == 8) {
+                           cell.floodReveal();
+                       }
+                    };
+                };
+            };
+        };
+    }
 
 
 }
