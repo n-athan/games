@@ -11,8 +11,29 @@
     <title>Kleurenveger</title>
 </head>
 <body>
-    <canvas></canvas>
-    <script src="grid.js"></script>
+    <div id="controls">
+        <div class="button">
+            <button onclick="paintColor(180)" aria-label="blue-paint-color" id="180" name="paint">Blue</button>
+            <button onclick="paintColor(0)" aria-label="red-paint-color" id="0" name="paint">Red</button>
+            <button onclick="paintColor(90)" aria-label="green-paint-color" id="90" name="paint">Green</button>
+            <button onclick="paintColor(270)" aria-label="purple-paint-color" id="270" name="paint">Purple</button>
+            <button onclick="freeColor()" aria-label="no-paint-color" id="free" name="paint">Free 3/3</button>
+        </div>
+        <div id="rules">
+            <h2>Rules</h2>
+            <ul>
+                <li>Try to paint all the squares the right color.</li>
+                <li>The buttons set the paint color.</li>
+                <li>The first try is 'free', there is no paint selected yet. </li>
+                <li>You get 3 more 'free' tries. Be mindfull when to use them.</li>
+                <li>If you paint a square the wrong color, you will lose.</li>
+                <li>The number on a square indicates the number of adjacent (left, right, top, bottom and diagonal) tiles with the same color.</li>
+                <li>All tiles of the same color are touching, this may be diagonally.</li>
+            </ul>
+        </div>
+
+    </div>
+    <script src="cell.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

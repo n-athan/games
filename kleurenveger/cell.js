@@ -1,21 +1,3 @@
-function newGrid(cols,rows) {
-    grid = [];
-    for (var y = 0; y < rows; y++) {
-        for (var x = 0; x < cols; x++) {
-            var cell = new Cell(x,y);
-            grid.push(cell);
-        }
-    }
-    return grid;
-}
-
-function index(i,j) {
-    if ( i < 0 || j < 0 || i > cols-1 || j > rows - 1){
-        return -1
-    }
-    return  i + j * cols;
-}
-
 function Cell(x,y) {
     this.index = index(x,y);
     this.x = x;
@@ -122,4 +104,28 @@ function Cell(x,y) {
     }
 
 
+}
+
+function newGrid(cols,rows) {
+    grid = [];
+    for (var y = 0; y < rows; y++) {
+        for (var x = 0; x < cols; x++) {
+            var cell = new Cell(x,y);
+            grid.push(cell);
+        }
+    }
+    return grid;
+}
+
+function index(i,j) {
+    if ( i < 0 || j < 0 || i > cols-1 || j > rows - 1){
+        return -1
+    }
+    return  i + j * cols;
+}
+
+function invertHSL(h,s,l) {
+    rh = (180 + h) % 360;
+    rl = 100 - l;
+    return [rh,s,rl];
 }
