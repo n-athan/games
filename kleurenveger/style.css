@@ -12,7 +12,8 @@ canvas {
     grid-column: 2;
     grid-row: 1;
     object-fit: contain;
-    justify-self: right;
+    justify-self: center;
+    align-self: center;
     height: 100%;
     width: 100%;
     margin: 0;    
@@ -26,7 +27,7 @@ canvas {
     background-color: hsl(249, 30%, 10%);
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: repeat(auto-fill, minmax(min-content, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(min-content, auto));
     justify-content: center;
     align-items: center;
 }
@@ -41,15 +42,16 @@ button, a, h2, .settings, input {
 }
 
 li {
+    color:  hsla(21, 9%, 92%,0.9);
     font-family: 'Space Mono', monospace;
     font-size: 1em;
-    color: hsla(21, 9%, 92%,0.9);
     max-width: 100%;
 }
 
-.settings {
+.settings, #paintColors {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
 
 input {
@@ -76,24 +78,33 @@ input[type=number]::-webkit-outer-spin-button {
     
     canvas {
         grid-column: 1;
-        justify-self: center;
-        align-self: center;
-        width: 90vw !important;
-        margin: 0;
-        padding: 0;
-        object-fit: contain;
     }
 
     #controls {
         grid-column: 1;
         grid-row: 2;
+        width: 90vw;
     }
 
+    .settings {
+        width: 100%;
+    }
 
-    h2, button, .button {
+    button, .button {
         font-size: 12px;
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
         justify-content: space-evenly;
+        width: auto;
+    }
+
+    
+}
+
+@media only screen and (max-width: 450px){
+    canvas {
+        /* mouseinput is automatically scaled if width and height are both set.  */
+        width: 90vw !important; 
+        height: 90vw !important;
     }
 }

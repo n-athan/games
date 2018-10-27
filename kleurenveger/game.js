@@ -1,53 +1,70 @@
-var cols, rows, blue, red, m, paint, guessesLeft, gameOver, go_i;
-var w = 40;
-var colored = [];
+var cols, rows, blue, red, m, paint, guessesLeft, gameOver, go_i, canvas_size;
+getSize();
+var w = canvas_size/10;
+var colors = 4;
+//set canvas size
+function getSize() {
+    if (window.innerWidth < 450) {
+        canvas_size = 400;
+    } else if (window.innerWidth < 900) {
+        let w_col = window.innerWidth * 0.7;
+        if (w_col > window.innerHeight) {
+            canvas_size = window.innerHeight - 250;
+            console.log("portrait")
+        } else {canvas_size = Math.floor(w_col)}
+    } else {
+        let w_col = document.getElementById("controls").offsetWidth;
+        if (w_col > window.innerHeight) {
+            canvas_size = window.innerHeight - 50
+            console.log("portrait")
+        } else {canvas_size = Math.floor(w_col)}
+    }
+}
+
 
 
 function setup() {
-    createCanvas(401, 401);
+    createCanvas(canvas_size+1, canvas_size+1);
     colorMode(HSL, 360, 100, 100);
     cols = floor(width / w);
     rows = floor(height / w);
     grid = newGrid(cols, rows);
     m = cols * rows;
-    guessesLeft = 3;
+    guessesLeft = colors-1;
     gameOver = false;
     paint = undefined;
     go_i = 0;
 
+    //Setting the colors. Using a dynamic naming, to account for user set number of colors.    
+    for (var i = 0; i < colors; i++) {
+        window['color'+i] = -1; //initialize var
+        
+        // Add button : example html
+        //<button onclick="paintColor(180)" aria-label="blue-paint-color" id="180" name="paint">Blue</button>
+        let hue = i*(360/colors)
+        html = `<button onclick="paintColor(${hue})" aria-label="${hue}-paint-color" id="${hue}" name="paint" style="color: hsl(${hue},50%,50%)"> Paint ${hue}</button>`;
+        document.getElementById("paintButtons").insertAdjacentHTML("afterbegin",html);
+    }
+    //Add free guess button
+    document.getElementById("paintButtons").insertAdjacentHTML("beforeend", 
+    `<button onclick='freeColor()' aria-label='no-paint-color' id='free' name='paint'>Free ${guessesLeft}/${guessesLeft}</button>`);
 
     // color the field based on the recursive backtracking Maze Generation algorithm.
     // https://en.wikipedia.org/wiki/Maze_generation_algorithm#Recursive_backtracker
     // https://www.youtube.com/watch?v=8Ju_uxJ9v44 
-    blue = grid[floor(random(m))];
-    blue.hue = 180;
-    blue_stack = [];
-
-    red = grid[floor(random(m))];
-    red.hue = 0;
-    red_stack = [];
-
-    green = grid[floor(random(m))];
-    green.hue = 90;
-    green_stack = [];
-
-    purple = grid[floor(random(m))];
-    purple.hue = 270;
-    purple_stack = [];
+   
+    for (var i = 0; i < colors; i++) {
+        window['color'+i] = grid[floor(random(m))]; 
+        window['color'+i].hue = i*(360/colors); 
+        window['color'+i+'_stack'] = []; 
+    }
 
     while (grid.filter(function (i) { return i.colored == false }).length > 0) {
 
-        blue.colored = true;
-        blue = blue.colorUpdate(180, blue_stack);
-
-        red.colored = true;
-        red = red.colorUpdate(0, red_stack);
-
-        green.colored = true;
-        green = green.colorUpdate(90, green_stack);
-
-        purple.colored = true;
-        purple = purple.colorUpdate(270, purple_stack);
+        for (var i = 0; i < colors; i++) {
+            window['color'+i].colored = true;
+            window['color'+i] = window['color'+i].colorUpdate(window['color'+i].hue, window['color'+i+'_stack']);
+        }
     }
     // end of making the colored field. 
 
@@ -71,55 +88,3 @@ function draw() {
 }
 
 
-function mousePressed() {
-    for (i in grid) {
-        if (grid[i].contain(mouseX, mouseY)) {
-            rev = grid[i].revealed;
-            grid[i].revealed = true;
-            if (grid[i].similarNeighbors == 8) {
-                grid[i].floodReveal();
-            }
-            if (!paint) { //Free guess
-                paintColor(grid[i].hue);
-            } else if (paint != grid[i].hue && rev == false) {
-                //GAME OVER
-                gameOver = true;
-            }
-        }
-    }
-}
-
-function paintColor(hue) {
-    paint = hue;
-    let buttons = document.getElementsByName('paint');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].style.backgroundColor = `hsla(249, 9%, 92%,0.3)`;
-        buttons[i].style.fontWeight = 400;
-    }
-    let b = document.getElementById(hue);
-    b.style.backgroundColor = `hsla(${hue}, 9%, 50%,0.9)`;
-    b.style.fontWeight = 800;
-}
-
-function freeColor() {
-    if (guessesLeft > 0) {
-        paint = undefined;
-        guessesLeft --; 
-        document.getElementById("free").innerHTML = `Free ${guessesLeft}/3`;
-        let buttons = document.getElementsByName('paint');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].style.backgroundColor = `hsla(249, 9%, 92%,0.3)`;
-            buttons[i].style.fontWeight = 400;
-        }
-        document.getElementById("free").style.backgroundColor = `hsla(60, 9%, 92%,0.9)`;
-        document.getElementById("free").style.fontWeight = 800;
-    } else {
-        document.getElementById("free").innerHTML = '-';
-    }
-}
-
-function refresh() {
-    w = 400/document.getElementById("squares").value;
-    setup();
-
-}

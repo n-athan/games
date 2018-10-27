@@ -12,16 +12,17 @@
 </head>
 <body>
     <div id="controls">
-        <div class="button">
-            <button onclick="paintColor(180)" aria-label="blue-paint-color" id="180" name="paint">Blue</button>
-            <button onclick="paintColor(0)" aria-label="red-paint-color" id="0" name="paint">Red</button>
-            <button onclick="paintColor(90)" aria-label="green-paint-color" id="90" name="paint">Green</button>
-            <button onclick="paintColor(270)" aria-label="purple-paint-color" id="270" name="paint">Purple</button>
-            <button onclick="freeColor()" aria-label="no-paint-color" id="free" name="paint">Free 3/3</button>
+        <div class="button" id="paintButtons">
+            <!-- Example Buttons, the actual buttons are calculates in game.js -->
+            <!-- <button onclick="paintColor(180)" aria-label="blue-paint-color" id="180" name="paint">Blue</button> -->
+            <!-- <button onclick="freeColor()" aria-label="no-paint-color" id="free" name="paint">Free 3/3</button> -->
         </div>
         <div class="settings">
-                # sqr/row: <input type="number" name="squares" id="squares" value="10">
-                <button onclick="refresh()">Start!</button>
+            # sqr/row: <input type="number" name="squares" id="squares" value="10"> 
+            # colors: <input type="number" name="colors" id="colors" value="4">
+        </div>
+        <div class="settings">
+            <button onclick="refresh()">Start!</button>
         </div>
         <div id="rules">
             <h2>Rules</h2>
@@ -29,15 +30,16 @@
                 <li>Try to paint all the squares the right color.</li>
                 <li>The buttons set the paint color.</li>
                 <li>The first try is 'free', there is no paint selected yet. </li>
-                <li>You get 3 more 'free' tries. Be mindfull when to use them.</li>
+                <li>You get a few extra 'free' tries. Be mindful when to use them.</li>
                 <li>If you paint a square the wrong color, you will lose.</li>
-                <li>The number on a square indicates the number of adjacent (left, right, top, bottom and diagonal) tiles with the same color.</li>
-                <li>All tiles of the same color are touching, this may be diagonally.</li>
+                <li>The number on a square indicates the number of adjacent tiles with the same color (left, right, top, bottom and diagonal).</li>
+                <li>All tiles of the same color are touching, this may be diagonal.</li>
             </ul>
         </div>
 
     </div>
     <script src="cell.js"></script>
+    <script src="interface.js"></script>
     <script src="game.js"></script>
 </body>
 </html>
