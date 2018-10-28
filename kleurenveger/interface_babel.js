@@ -10,7 +10,7 @@ function mousePressed() {
       if (grid[i].similarNeighbors == 8) {
         grid[i].floodReveal();
       }
-      if (!paint) {
+      if (paint == undefined) {
         //Free guess
         paintColor(grid[i].hue);
       } else if (paint != grid[i].hue && rev == false) {
@@ -56,7 +56,7 @@ function refresh() {
   // get user input
   w_input = document.getElementById("squares").value;
   colors_input = document.getElementById("colors").value;
-  colors = constrain(colors_input, 2, 50);
+  colors = constrain(colors_input, 2, 12);
   w = canvas_size / constrain(w_input, 1, 30);
 
   // reset buttons
@@ -64,4 +64,28 @@ function refresh() {
 
   // start new game
   setup();
+}
+
+function changeLanguage() {
+  if (lang == "nl") {lang = "en"} else {lang = "nl"};
+  let button = document.getElementById("lang");
+  let enp = document.getElementsByClassName("en");
+  let nlp = document.getElementsByClassName("nl");
+  if (lang == "nl") {
+      button.innerHTML = "EN";
+      for(var i=0; i<nlp.length; i++) {
+          nlp[i].style.display = 'block';
+      }
+      for(var i=0; i<enp.length; i++) {
+          enp[i].style.display = 'none';
+      }
+  } else if (lang == "en") {
+      button.innerHTML = "NL";
+      for(var i=0; i<nlp.length; i++) {
+          nlp[i].style.display = 'none';
+      }
+      for(var i=0; i<enp.length; i++) {
+          enp[i].style.display = 'block';
+      }
+  }
 }

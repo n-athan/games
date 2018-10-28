@@ -4,6 +4,7 @@
 
 var cols, rows, blue, red, m, paint, guessesLeft, gameOver, go_i, canvas_size, grid, html, hue, w_input, colors_input, lang, labels;
 getSize();
+var lang = "nl";
 var w = canvas_size / 10;
 var colors = 4;
 var labels_nl = ["Rood", "Oranje", "Geel", "Lichtgroen", "Groen", "Turkoois", "Cyaan", "Blauw", "Indigo", "Paars", "Magenta","Roze", "Rood"]
@@ -62,7 +63,7 @@ function setup() {
   gameOver = false;
   paint = undefined;
   go_i = 0;
-  if (lang == "en") {labels = labels_en} else{labels=labels_nl};
+  if (lang == "en") {labels = labels_en} else {labels=labels_nl};
 
   //Setting the colors. Using a dynamic naming, to account for user set number of colors.
   for (var i = 0; i < colors; i++) {

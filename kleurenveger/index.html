@@ -11,6 +11,9 @@
     <title>Inkteger</title>
 </head>
 <body>
+    <div class="header">
+            <button id="lang" onclick="changeLanguage()">EN</button>
+    </div>
     <div id="controls">
         <div class="button" id="paintButtons">
             <!-- Example Buttons, the actual buttons are calculates in game.js -->
@@ -18,22 +21,32 @@
             <!-- <button onclick="freeColor()" aria-label="no-paint-color" id="free" name="paint">Free 3/3</button> -->
         </div>
         <div class="settings">
-            # sqr/row: <input type="number" name="squares" id="squares" value="10"> 
-            # colors: <input type="number" name="colors" id="colors" value="4">
+            <p class="en">#columns:</p> <p class="nl">#kolommen:</p> <input type="number" name="squares" id="squares" value="10"> 
+            <p class="en">#colors:</p>  <p class="nl">#kleuren:</p> <input type="number" name="colors" id="colors" value="4">
         </div>
         <div class="settings">
             <button onclick="refresh()">Start!</button>
         </div>
         <div id="rules">
-            <h2>Rules</h2>
-            <ul>
+            <h2 class="en">Rules</h2>
+            <ul class="en">
                 <li>Try to paint all the squares the right color.</li>
-                <li>The buttons set the paint color.</li>
-                <li>The first try is 'free', there is no paint selected yet. </li>
+                <li>The buttons set the ink color.</li>
+                <li>The first move is 'free', there is no ink selected yet. </li>
                 <li>You get a few extra 'free' tries. Be mindful when to use them.</li>
                 <li>If you paint a square the wrong color, you will lose.</li>
-                <li>The number on a square indicates the number of adjacent tiles with the same color (left, right, top, bottom and diagonal).</li>
-                <li>All tiles of the same color are touching, this may be diagonal.</li>
+                <li>The number on a square indicates the number of adjacent squares with the same color (left, right, top, bottom and diagonal).</li>
+                <li>A square is always adjecent to a square with the same color, this may be diagonal.</li>
+            </ul>
+            <h2 class="nl">Uitleg</h2>
+            <ul class="nl">
+                <li>Probeer alle vakjes de juiste kleur te verfen.</li>
+                <li>Met de knoppen kun je de kleur inkt kiezen.</li>
+                <li>De eerste zet is vrij, er is nog geen inkt geselecteerd.</li>
+                <li>Je krijgt een paar extra vrije zetten. Bedenk goed wanneer je die wilt gebruiken!</li>
+                <li>Als je een vakje de verkeerde kleur verft, dan heb je verloren.</li>
+                <li>Het getal op een vakje laat zien hoeveel aangrensende vakjes dezelfde kleur hebben. Vakjes kunnen in alle richtingen aangrensend zijn. (links, rechts, boven, onder en diagonaal).</li>
+                <li>Een vakje raakt altijd een ander vakje van dezelfde kleur, dit kan ook diagonaal zijn.</li>
             </ul>
         </div>
 
