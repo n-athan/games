@@ -9,30 +9,41 @@ body{
     background-color: hsl(249, 30%, 10%);
 }
 
-p {
+.interface > p {
     color:  hsla(21, 9%, 92%,0.5);
     font-family: 'Space Mono', monospace;
     font-size: 1em;
 }
 
 /* cards */
-
-p[.open] {
-    color: green;
+.field {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: flex-start;
 }
 
-div[.open] {
-    background-color: hsla(21, 9%, 92%,1);
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: hsla(21, 9%, 92%,0.2) solid 3px;
+    border-radius: 10px;
+    margin: 5px;
+    background: black;
+    height: 200px;
+    width: 100px;
+    font-size: 7em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-div[.closed] {
-    background-color: black;
-}
-
-div[.cleared], p[.closed] {
+.card > p {
     visibility: hidden;
 }
 
+.open {
+    visibility: visible !important;
+}
 
 /* interface */
 .interface {
