@@ -1,4 +1,4 @@
-let colorOffset = Math.floor(Math.random()*40);
+let colorOffset = Math.floor(Math.random()*360);
 
 function Card(i,p) {
     this.id = i;
@@ -17,6 +17,11 @@ function Card(i,p) {
         return `<div class="card" unselectable="on" onclick="cardClick(${this.id})" id="${this.id}"><p style="color:hsl(${this.color},80%,50%);">${this.letter}</p></div>`
     }
 
+}
+
+function flip(idDOM){
+    let c = document.getElementById(idDOM).firstChild;
+    c.classList.add("open");
 }
 
 function forget() {

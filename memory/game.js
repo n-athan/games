@@ -1,5 +1,5 @@
 let state;
-//states: playerNoCardFlipped, playerOneCardFlipped, playerPlayed, botPlayed. 
+//states: playerNoCardFlipped, playerOneCardFlipped. 
 let initialMemory = document.getElementById("initialMemory").value;
 let forgetfulness = document.getElementById("forgetfulness").value;
 let botMemory = [];
@@ -9,6 +9,7 @@ let scorePlayer = 0;
 let scoreBot = 0;
 let flipped = [];
 let ignoreMouse = false;
+let pairsLeft;
 
 setup(12);
 
@@ -27,6 +28,7 @@ function remove(array, element) {
 //start a game 
 function setup(n) {
     if (n%2 == 1) {alert("there must be an even number of cards to start a game"); return false}
+    pairsLeft = n/2;
     allCards = shuffle(newSet(n));
     let div = document.getElementById("field");
     for (var c = 0; c < allCards.length; c++) {
@@ -46,9 +48,7 @@ function cardClick(id) {
 
     //get state of game
     if (state == "playerNoCardFlipped") {
-        //flip clicked card
-        let c = document.getElementById(id).firstChild;
-        c.classList.add("open");
+        flip(id);
         // find card object that matches flipped DOM-element, to memorize.
         let f = allCards.find(x => x.id === id);
         flipped.push(f);
@@ -58,9 +58,7 @@ function cardClick(id) {
     } else if (state == "playerOneCardFlipped") {
         //ensure you don't click on same card twice.
         if (id == flipped[0].id) {return}
-        //flip clicked card
-        let c = document.getElementById(id).firstChild;
-        c.classList.add("open");
+        flip(id);
         // find card object that matches flipped DOM-element, to memorize.
         let f = allCards.find(x => x.id === id);
         f.memorize();
@@ -70,19 +68,42 @@ function cardClick(id) {
             ignoreMouse = true;
             setTimeout(function() {
                 unflip();
-                state = "playerNoCardFlipped"; //change to botTurn after testing.
+                state = "playerNoCardFlipped"; //remove for botTurn after testing.
                 ignoreMouse = false;
             },1000);            
             forget();
-            //add function to start bots turn
+            // botTurn();
         };
-
-    } else if (state == "botPlayed") {
-        setTimeout(unflip(),1000);
-        state = "playerNoCardFlipped";
-        forget();
-    }
+    };
     console.log(state);
+    // } else if (state == "botPlayed") {
+    //     setTimeout(unflip(),1000);
+    //     state = "playerNoCardFlipped";
+    //     forget();
+    // }
+}
+
+function botTurn() {
+    //if known pair in botMemory > play pair.
+    //else turn unkown card and check memory for pair.
+        //if known pair > play pair.
+        //else play unknown card. 
+    for (let i = 0; i < botMemory.length; i++) {
+        let j = botMemory[i];
+        let p = botMemory.find(x => (x.pair === j.pair)&&(x !== j));
+        if (p) {
+            let foundPair = [botMemory[i],p];
+            // for (let k = 0; k < 2; k++){
+            //     flip(foundPair[k].id);
+            //     flipped.push(foundPair[k]);
+            // } 
+            // checkSimilar();
+            // setTimeout(unflip(),300);
+            break
+        }
+    }
+    state = "playerNoCardFlipped";
+    forget();
 }
 
 function checkSimilar() {
@@ -97,13 +118,15 @@ function checkSimilar() {
                 state = "playerNoCardFlipped";
                 ignoreMouse = false;
             },500);    
-            updateScore("Player", scorePlayer)
+            updateScore("Player", scorePlayer);
         } else {
             scoreBot+=1;
             state == "botTurn"; 
             updateScore("Bot", scoreBot)            
             //add function to start bots turn
-        }    
+        }
+        pairsLeft -= 1;
+        if (pairsLeft == 0) {gameOver();}          
     } //else do nothing
     flipped = [];
 }
@@ -111,4 +134,8 @@ function checkSimilar() {
 function updateScore(person, score) {
     let p = document.getElementById(`score${person}`);
     p.innerHTML = person + ": " + score;
+}
+
+function gameOver() {
+    alert(`Game Over. \n Score player: ${scorePlayer} \n Score bot: ${scoreBot}`);
 }
